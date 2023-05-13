@@ -5,6 +5,7 @@ import Contacts from 'components/Contacts';
 import Filter from 'components/Filter';
 import { nanoid } from 'nanoid';
 import Tittle from 'components/Tittle';
+import Notiflix from 'notiflix';
 
 class App extends Component {
   state = {
@@ -34,7 +35,7 @@ class App extends Component {
         contacts: contacts,
       });
     } else {
-      alert(`${nameToAdd} is already in contacts`);
+      Notiflix.Report.failure(`${nameToAdd} is already in contacts`);
     }
   };
   filteredNames() {
