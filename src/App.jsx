@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import css from './App.css';
+import './App.css';
 import Form from 'components/ContactAdd'
 import Contacts from 'components/Contacts';
 import Filter from 'components/Filter';
@@ -52,7 +52,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className={css.App}>
+      <div className="App">
         <Tittle text="Nombre"/>
         <Form onSubmit={this.submitCathcer} />
 
