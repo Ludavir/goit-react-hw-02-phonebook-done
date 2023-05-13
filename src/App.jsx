@@ -1,12 +1,67 @@
-import React from "react";
-import './App.css'
-import Tittle from "components/Tittle";
+import React, { Component } from 'react';
+import css from './App.css';
+import Form from 'components/ContactAdd'
+import Contacts from 'components/Contacts';
+import Filter from 'components/Filter';
+import { nanoid } from 'nanoid';
+import Tittle from 'components/Tittle';
 
-export const App = () => {
-  return (
-    <div className="container__main">
-      <Tittle text="Phonebook"/>
-      <Tittle text="Contacts"/>
-    </div>
-  );
-};
+class App extends Component {
+  state = {
+    contacts: [],
+    filter: '',
+  };
+  onDelete = id => {
+    const contacts = [...this.state.contacts];
+    const personToFind = id;
+    const newContacts = contacts.filter(({ id }) => id !== personToFind);
+    this.setState({
+      contacts: newContacts,
+    });
+  };
+  submitCathcer = ({ name, number }) => {
+    const contacts = [...this.state.contacts];
+    const nameToAdd = name;
+    const person = {
+      name: `${name}`,
+      id: `${nanoid()}`,
+      number: `${number}`,
+    };
+    const addCheck = contacts.find(({ name }) => name.includes(nameToAdd));
+    if (!addCheck) {
+      contacts.push(person);
+      this.setState({
+        contacts: contacts,
+      });
+    } else {
+      alert(`${nameToAdd} is already in contacts`);
+    }
+  };
+  filteredNames() {
+    const contacts = [...this.state.contacts];
+    const filter = this.state.filter;
+    const filtered = contacts.filter(({ name }) =>
+      name.toLowerCase().includes(filter.toLowerCase())
+    );
+    return filtered;
+  }
+  onFilter = e => {
+    const nameIs = e.target.value;
+    this.setState({ filter: nameIs });
+  };
+
+  render() {
+    return (
+      <div className={css.App}>
+        <Tittle text="Nombre"/>
+        <Form onSubmit={this.submitCathcer} />
+
+        <Tittle text="Contacts"/>
+        <Filter onFilter={this.onFilter} />
+        <Contacts contacts={this.filteredNames()} onDelete={this.onDelete} />
+      </div>
+    );
+  }
+}
+
+export default App;
